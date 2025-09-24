@@ -3,12 +3,15 @@ extends KinematicBody2D
 export var speed := 200
 export var jump_force := 430
 export var gravity := 900
-export var coyote_time := 0.15     # waktu toleransi setelah jatuh
-export var jump_buffer_time := 0.15 # waktu toleransi sebelum menyentuh lantai
+export var coyote_time := 0.15     # toleransi setelah jatuh
+export var jump_buffer_time := 0.15 # toleransi sebelum menyentuh lantai
+export var max_jumps := 2          # jumlah maksimal lompat
+export var double_jump_multiplier := 0.8 # seberapa tinggi lompatan kedua
 
 var velocity = Vector2.ZERO
 var coyote_timer = 0.0
 var jump_buffer_timer = 0.0
+var jumps_left = 0
 
 onready var sprite = $Sprite
 
@@ -17,7 +20,8 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	else:
-		coyote_timer = coyote_time  # reset coyote time kalau nyentuh lantai
+		coyote_timer = coyote_time   # reset coyote time
+		jumps_left = max_jumps       # reset jumlah lompatan
 
 	# Kurangi timer
 	if coyote_timer > 0:
@@ -41,11 +45,18 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		jump_buffer_timer = jump_buffer_time
 
-	# Lompat hanya kalau masih dalam coyote time DAN ada buffer input
-	if jump_buffer_timer > 0 and coyote_timer > 0:
-		velocity.y = -jump_force
+	# Lompat (cek normal jump atau double jump)
+	if jump_buffer_timer > 0 and (coyote_timer > 0 or jumps_left > 0):
+		if jumps_left == max_jumps:  
+			# Lompat pertama
+			velocity.y = -jump_force
+		else:
+			# Lompat kedua (lebih pendek)
+			velocity.y = -jump_force * double_jump_multiplier
+
 		jump_buffer_timer = 0
 		coyote_timer = 0
+		jumps_left -= 1   # kurangi jumlah lompat tersisa
 
 	# Gerakkan player
 	velocity = move_and_slide(velocity, Vector2.UP)
