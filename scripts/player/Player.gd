@@ -1,12 +1,13 @@
 extends KinematicBody2D
 
-export var speed := 200
-export var jump_force := 430
-export var gravity := 900
-export var coyote_time := 0.15     # toleransi setelah jatuh
-export var jump_buffer_time := 0.15 # toleransi sebelum menyentuh lantai
-export var max_jumps := 2          # jumlah maksimal lompat
-export var double_jump_multiplier := 0.8 # seberapa tinggi lompatan kedua
+export var speed := 250
+export var jump_force := 750
+export var gravity := 2000
+export var coyote_time := 0.1
+export var jump_buffer_time := 0.1
+export var max_jumps := 2
+export var double_jump_multiplier := 0.9
+export var max_fall_speed := 2500   # batas kecepatan jatuh biar ga terlalu berat
 
 var velocity = Vector2.ZERO
 var coyote_timer = 0.0
@@ -20,8 +21,11 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	else:
-		coyote_timer = coyote_time   # reset coyote time
-		jumps_left = max_jumps       # reset jumlah lompatan
+		coyote_timer = coyote_time
+		jumps_left = max_jumps
+
+	# Batasi kecepatan jatuh
+	velocity.y = min(velocity.y, max_fall_speed)
 
 	# Kurangi timer
 	if coyote_timer > 0:
@@ -48,15 +52,13 @@ func _physics_process(delta):
 	# Lompat (cek normal jump atau double jump)
 	if jump_buffer_timer > 0 and (coyote_timer > 0 or jumps_left > 0):
 		if jumps_left == max_jumps:  
-			# Lompat pertama
 			velocity.y = -jump_force
 		else:
-			# Lompat kedua (lebih pendek)
 			velocity.y = -jump_force * double_jump_multiplier
 
 		jump_buffer_timer = 0
 		coyote_timer = 0
-		jumps_left -= 1   # kurangi jumlah lompat tersisa
-
+		jumps_left -= 1
+	
 	# Gerakkan player
 	velocity = move_and_slide(velocity, Vector2.UP)
