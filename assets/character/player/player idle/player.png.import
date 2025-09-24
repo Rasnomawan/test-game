@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tanah_tiles.png-312a26fc6d33d737480fabd5e4ea7d5b.stex"
+path="res://.import/player.png-d2d08f6a3c5422ea0a09f0eea6a17f34.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tanah_tiles.png"
-dest_files=[ "res://.import/tanah_tiles.png-312a26fc6d33d737480fabd5e4ea7d5b.stex" ]
+source_file="res://assets/character/player/player idle/player.png"
+dest_files=[ "res://.import/player.png-d2d08f6a3c5422ea0a09f0eea6a17f34.stex" ]
 
 [params]
 
