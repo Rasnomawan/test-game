@@ -15,7 +15,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.5, 7 )
+extents = Vector2( 10, 15.5 )
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -108,13 +108,12 @@ position = Vector2( 514, 173 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="player"]
-position = Vector2( 0, 0.5 )
-scale = Vector2( 1, 1.03125 )
+position = Vector2( -45.9999, 38 )
+scale = Vector2( -1.57032, 1.69057 )
 frames = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-visible = false
-position = Vector2( -1.5, 1 )
+position = Vector2( -46, 34.5 )
 shape = SubResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
