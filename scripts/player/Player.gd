@@ -6,7 +6,7 @@ export var gravity := 2000
 export var coyote_time := 0.1
 export var jump_buffer_time := 0.1
 export var max_jumps := 2
-export var double_jump_multiplier := 0.8
+export var double_jump_multiplier := 0.7
 export var max_fall_speed := 2500
 
 var velocity = Vector2.ZERO
